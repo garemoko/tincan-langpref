@@ -1,0 +1,57 @@
+<html>
+<head>
+	<title>CMI5 language pref demo</title>
+	<script src="js/tincan.js" ></script>
+	<script>
+
+
+	var value = JSON.stringify({
+		"languagePreference": "fr, en, de"
+	});
+	
+	setPrefExample(value);
+	getPrefExample();
+
+		
+	function setPrefExample(value){
+		var LangPref_tincan = new TinCan ({url: window.location.href}),
+		ACTIVITYID = 'http://example.com/activityid', 
+		KEY = 'CMI5LearnerPreferences';
+			
+		LangPref_tincan.setState(
+			KEY,
+			value,
+			{
+		        callback: function (err, result) {
+		            console.log('Set state:' + JSON.stringify(result));
+		        },
+		        activity : { id : ACTIVITYID},
+		        contentType : 'application/json'
+		    }
+		);
+	}
+	function getPrefExample(){
+		var LangPref_tincan = new TinCan ({url: window.location.href}),
+		ACTIVITYID = 'http://example.com/activityid', 
+		KEY = 'CMI5LearnerPreferences';
+		LangPref_tincan.getState(
+			KEY,
+		    {
+		        callback: function (err, result) {
+		            console.log('Get state:' + JSON.stringify(result));
+		            var langPref = result.contents.languagePreference.split(',')[0];
+		            document.write('<p>lang pref: ' + langPref +'</p>');
+		        },
+		        activity : { id : ACTIVITYID}
+		    }
+		);
+	}
+		
+	</script>
+</head>
+<body>
+	<p>Launch this then wait, it's a public demo LRS so may take a while. (Note: sometimes get state completes before set state - this is just an example!) Use this querystring if you like:</p>	
+	
+</P>?endpoint=http://cloud.scorm.com/ScormEngineInterface/TCAPI/public/&auth=Basic%20eDp4&actor=%7B"name":"Andrew%20Downes","mbox":"mailto:andrew@tincanapi.co.uk","objectType":"Agent"%7D&registration=ba3ea5e0-12a1-11e4-9191-0800200c9a66</P>
+</body>
+</html>
